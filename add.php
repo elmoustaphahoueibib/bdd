@@ -11,11 +11,11 @@ if (!empty($_POST)) {
     $fisrtError = null;
     $emailError = null;
     $lastError = null;
+   
 
     $fname = $_POST['firstname'];
     $email = $_POST['email'];
     $lname = $_POST['lastname'];
-    $id = $_POST['id'];
 
     $valid = true;
     if (empty($fname)) {
@@ -32,14 +32,16 @@ if (!empty($_POST)) {
     }
 
     if (empty($lname)) {
-        $lastError = 'Please enter Mobile Number';
+        $lastError = 'Please enter Last name';
         $valid = false;
     }
+
+
 
     if ($valid) {
         $pdo = Users::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO users (id, firstname, lastname, email) VALUES (14,'awatef', 'ah')";
+        $sql = "INSERT INTO users (firstname, lastname, email) VALUES ('$fname', '$lname','$email')";
         $q = $pdo->prepare($sql);
         $q->execute(array($id, $fname, $lname ,$email));
         Users::disconnect();
@@ -52,44 +54,43 @@ if (!empty($_POST)) {
 <!doctype html>
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.js">
 </head>
-
+<style>
+    body {
+        font-family:  'Noto Sans TC', sans-serif;
+    }
+</style>
 <body>
 
 <div class="container">
     <div class="row">
-        <h3>Add new user</h3>
+        <h4>Add new user</h4>
     </div>
     <hr>
     <form class="form" action="add.php" method="post">
         <div class="control-group ">
-            <label class="control-label">ID</label>
-            <div class="controls">
-                <input name="id" type="text" placeholder="Id" value="">
-            </div>
-        </div>
-        <div class="control-group ">
             <label class="control-label">Firstname</label>
             <div class="controls">
-                <input name="firstname" type="text" placeholder="FirstName" value="">
+                <input name="firstname" class="form-control" type="text" placeholder="FirstName" value="">
             </div>
         </div>
         <div class="control-group ">
-            <label class="control-label">LastNAme</label>
+            <label class="control-label">LastName</label>
             <div class="controls">
-                <input name="lastname" type="text" placeholder="LastName" value="">
+                <input name="lastname" class="form-control" type="text" placeholder="LastName" value="">
             </div>
         </div>
         <div class="control-group ">
             <label class="control-label">Email Address</label>
             <div class="controls">
-                <input name="email" type="text" placeholder="Email Address" value="">
+                <input name="email" class="form-control" type="text" placeholder="Email Address" value="">
             </div>
         </div>
         <br>
-        <div class="form-actions">
+        <div class="form-actions" align="center">
             <button type="submit" class="btn btn-success">Create</button>
             <a class="btn btn-warning" href="index.php">Back</a>
         </div>
